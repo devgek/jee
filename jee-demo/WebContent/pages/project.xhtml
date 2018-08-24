@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="../template/ui.xhtml">
+	<ui:define name="body">
+		<h4>ProjectController</h4>
+		<h:form id="projectForm">
+			<h:panelGroup id="projectGroup" layout="block">
+				<h:outputText value="Liste aller Projekte " />
+				<p:commandButton value="Go"
+					action="#{projectController.getProjects()}"
+					update=":projectForm" ajax="false">
+				</p:commandButton>
+			</h:panelGroup>
+			<h:panelGroup id="projectList">
+				<p:dataList value="#{projectUIModel.projects}" var="project" type="ordered">
+					<f:facet name="header">Projekte</f:facet>
+			        #{project.title}, #{project.company}
+				</p:dataList>
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>

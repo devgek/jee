@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="../template/ui.xhtml">
+	<ui:define name="body">
+		<h4>AlfrescoController</h4>
+		<h:form id="alfrescoForm">
+			<h:panelGroup id="alfrescoGroup" layout="block">
+				<h:outputText value="List content of Alfresco Folder " />
+				<p:inputText id="folderPath" value="#{alfrescoUIModel.folderPath}"
+					size="120" />
+				<p:commandButton value="Go"
+					action="#{alfrescoController.getDocumentNames()}"
+					update=":alfrescoForm" ajax="false">
+				</p:commandButton>
+			</h:panelGroup>
+			<br />
+			<h:panelGroup id="documentList">
+				<p:dataList value="#{alfrescoUIModel.documentList}" var="doc"
+					type="ordered">
+					<f:facet name="header">
+			            Dokumente
+			        </f:facet>
+			        #{doc.name}, #{doc.id}
+			        <p:commandButton value="Download"
+						action="#{alfrescoController.download(doc.id)}"
+						rendered="#{doc.downloadable}" ajax="false" immediate="true">
+					</p:commandButton>
+				</p:dataList>
+			</h:panelGroup>
+		</h:form>
+		<h:form id="uploadForm" enctype="multipart/form-data" acceptcharset="UTF-8" >
+			<p:fileUpload fileUploadListener="#{alfrescoController.handleFileUpload}"
+				mode="advanced" dragDropSupport="false" update="messages"
+				sizeLimit="1000000" fileLimit="3"
+				allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+			<p:growl id="messages" showDetail="true" />
+		</h:form>
+	</ui:define>
+</ui:composition>
